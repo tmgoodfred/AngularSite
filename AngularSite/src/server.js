@@ -8,7 +8,7 @@ const app = express();
 const port = 3000;
 
 app.use(bodyParser.json());
-app.use(cors({ origin: 'http://192.168.1.245:81/' })); // Replace with your Angular app's URL
+app.use(cors()); // Allow all origins for testing
 
 // Create a connection to the database
 const db = mysql.createConnection({
