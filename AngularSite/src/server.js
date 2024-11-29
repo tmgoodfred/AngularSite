@@ -8,7 +8,13 @@ const app = express();
 const port = 3000;
 
 app.use(bodyParser.json());
-app.use(cors()); // Allow all origins for testing
+
+// Configure CORS to allow requests from your public IP
+app.use(cors({
+  origin: ['http://http://99.108.171.159:81/', 'http://localhost:4200'],
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 // Create a connection to the database
 const db = mysql.createConnection({
@@ -119,11 +125,4 @@ app.post('/api/login', (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
-
-
-
-
-
-
-
 
