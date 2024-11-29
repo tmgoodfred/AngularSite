@@ -50,8 +50,8 @@ import { AuthService } from './auth.service';
   imports: [FormsModule, HttpClientModule, CommonModule]
 })
 export class UserAccountComponent {
-  registerUser = { UserName: '', UserPassword: '' };
-  loginUser = { UserName: '', UserPassword: '' };
+  registerUser = { UserName: '', UserPass: '' };
+  loginUser = { UserName: '', UserPass: '' };
   registerMessage: string | null = null;
   registerSuccess: boolean = false;
   loginMessage: string | null = null;
@@ -86,3 +86,8 @@ export class UserAccountComponent {
     );
   }
 }
+
+
+
+
+
