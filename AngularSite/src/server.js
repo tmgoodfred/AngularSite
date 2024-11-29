@@ -47,16 +47,31 @@ app.post('/api/register', (req, res) => {
     return;
   }
 
-  const hashedPassword = bcrypt.hashSync(UserPass, 8);
-  const CreateDate = new Date();
-
-  db.query('INSERT INTO UserTable (UserName, UserPass, CreateDate) VALUES (?, ?, ?)', [UserName, hashedPassword, CreateDate], (err, results) => {
+  // Check if the username already exists
+  db.query('SELECT * FROM UserTable WHERE UserName = ?', [UserName], (err, results) => {
     if (err) {
-      console.error('Error registering user:', err.message);
-      res.status(500).json({ error: 'Error registering user' });
+      console.error('Error checking username:', err.message);
+      res.status(500).json({ error: 'Error checking username' });
       return;
     }
-    res.status(200).json({ message: 'User registered successfully' });
+    if (results.length > 0) {
+      console.log('Username already exists');
+      res.status(409).json({ error: 'User already exists' });
+      return;
+    }
+
+    // Hash the password and insert the new user
+    const hashedPassword = bcrypt.hashSync(UserPass, 8);
+    const CreateDate = new Date();
+
+    db.query('INSERT INTO UserTable (UserName, UserPass, CreateDate) VALUES (?, ?, ?)', [UserName, hashedPassword, CreateDate], (err, results) => {
+      if (err) {
+        console.error('Error registering user:', err.message);
+        res.status(500).json({ error: 'Error registering user' });
+        return;
+      }
+      res.status(200).json({ message: 'User registered successfully' });
+    });
   });
 });
 
@@ -104,6 +119,7 @@ app.post('/api/login', (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
+
 
 
 
