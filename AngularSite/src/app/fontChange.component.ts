@@ -16,8 +16,36 @@ interface WeatherResponse {
 }
 
 @Component({
-  selector: 'app-root',
-  template: `  
+  selector: 'app-font-change',
+  template: `
+    <section class="centered-section">
+    <div class="centered-content text-center">
+      <h1>This is a section to test fun functions!</h1>
+      <p>How about checking the weather?</p>
+
+      <input
+       class="form-control w-50 mb-3 mx-auto"
+       type="text"
+       placeholder="Enter Location"
+       [(ngModel)]="location"
+       name="locationTextBox"
+       required
+      />
+
+      <button class="btn btn-primary mb-3" type="button" (click)="getWeather()">Get Weather</button>
+
+      <textarea
+       class="form-control shadow-lg mx-auto"
+       name="weatherTextArea"
+       [value]="weatherInfo"
+       readonly
+       data-bs-theme="light"
+       [rows]="textareaRows"
+       style="width: 300px;"
+      ></textarea>
+    </div>
+   </section>
+
    <section id="fun-font" class="centered-section">  
     <div class="centered-content">  
       <div class="col-lg-8 mx-auto text-center">  
@@ -26,40 +54,12 @@ interface WeatherResponse {
        <button class="btn btn-primary btn-lg" (click)="changeFont()">Change Font</button>  
       </div>  
     </div>  
-   </section>  
-  
-   <section class="centered-section">  
-    <div class="centered-content text-center">  
-      <h1>This is a section to test fun functions!</h1>  
-      <p>How about checking the weather?</p>  
-  
-      <input  
-       class="form-control w-50 mb-3 mx-auto"  
-       type="text"  
-       placeholder="Enter Location"  
-       [(ngModel)]="location"  
-       name="locationTextBox"  
-       required  
-      />  
-  
-      <button class="btn btn-primary mb-3" type="button" (click)="getWeather()">Get Weather</button>  
-  
-      <textarea  
-       class="form-control shadow-lg mx-auto"  
-       name="weatherTextArea"  
-       [value]="weatherInfo"  
-       readonly  
-       data-bs-theme="light"  
-       [rows]="textareaRows"  
-       style="width: 300px;"  
-      ></textarea>   
-    </div>   
-   </section>  
+   </section>
   `,
   standalone: true,
   imports: [FormsModule],
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class FontChangeComponent implements OnInit, OnDestroy {
   fonts: string[] = [
     'Arial', 'Courier New', 'Georgia', 'Tahoma', 'Verdana',
     'Times New Roman', 'Comic Sans MS', 'Impact', 'Lucida Console'
