@@ -71,6 +71,12 @@ app.post('/api/login', (req, res) => {
     const user = results[0];
     console.log('User from DB:', user);
 
+    if (!user.UserPassword) {
+      console.error('UserPassword from DB is undefined');
+      res.status(500).send('Server error');
+      return;
+    }
+
     const passwordIsValid = bcrypt.compareSync(UserPassword, user.UserPassword);
     console.log('Password is valid:', passwordIsValid);
 
@@ -88,5 +94,4 @@ app.post('/api/login', (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
-
 
