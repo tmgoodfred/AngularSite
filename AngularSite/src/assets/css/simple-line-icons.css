@@ -1,0 +1,12 @@
+@font-face {
+	font-family: 'simple-line-icons';
+	src: url(../../assets/fonts/simple-line-icons-71ebb7a139f13d279a77642c39893dca.eot?v=2.4.0) format('embedded-opentype'),
+	url(../../assets/fonts/simple-line-icons-71ebb7a139f13d279a77642c39893dca.eot?v=2.4.0) format('embedded-opentype'),
+	url(../../assets/fonts/simple-line-icons-24c6f7397dbebb95da5eb4fe11452625.woff2?v=2.4.0) format('woff2'),
+	url(../../assets/fonts/simple-line-icons-cae8c93881b3ca657ad4395c494b7a56.ttf?v=2.4.0) format('truetype'),
+	url(../../assets/fonts/simple-line-icons-12c69149005bc71544f22ed58d56e234.woff?v=2.4.0) format('woff'),
+	url(../../assets/fonts/simple-line-icons-68e6a88cc4d02ed5dfe506ab44910dc7.svg?v=2.4.0) format('svg');
+	font-weight: 400;
+	font-style: normal;
+	font-display: auto;
+}
