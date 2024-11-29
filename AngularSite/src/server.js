@@ -36,11 +36,11 @@ app.use((req, res, next) => {
 // Register a new user
 app.post('/api/register', (req, res) => {
   console.log('Register endpoint hit');
-  const { UserName, UserPassword } = req.body;
-  const hashedPassword = bcrypt.hashSync(UserPassword, 8);
+  const { UserName, UserPass } = req.body;
+  const hashedPassword = bcrypt.hashSync(UserPass, 8);
   const CreateDate = new Date();
 
-  db.query('INSERT INTO UserTable (UserName, UserPassword, CreateDate) VALUES (?, ?, ?)', [UserName, hashedPassword, CreateDate], (err, results) => {
+  db.query('INSERT INTO UserTable (UserName, UserPass, CreateDate) VALUES (?, ?, ?)', [UserName, hashedPassword, CreateDate], (err, results) => {
     if (err) {
       console.error('Error registering user:', err.message);
       res.status(500).send('Error registering user');
@@ -53,9 +53,9 @@ app.post('/api/register', (req, res) => {
 // Login a user
 app.post('/api/login', (req, res) => {
   console.log('Login endpoint hit');
-  const { UserName, UserPassword } = req.body;
+  const { UserName, UserPass } = req.body;
   console.log('UserName:', UserName);
-  console.log('UserPassword:', UserPassword);
+  console.log('UserPass:', UserPass);
 
   db.query('SELECT * FROM UserTable WHERE UserName = ?', [UserName], (err, results) => {
     if (err) {
@@ -71,13 +71,13 @@ app.post('/api/login', (req, res) => {
     const user = results[0];
     console.log('User from DB:', user);
 
-    if (!user.UserPassword) {
-      console.error('UserPassword from DB is undefined');
+    if (!user.UserPass) {
+      console.error('UserPass from DB is undefined');
       res.status(500).send('Server error');
       return;
     }
 
-    const passwordIsValid = bcrypt.compareSync(UserPassword, user.UserPassword);
+    const passwordIsValid = bcrypt.compareSync(UserPass, user.UserPass);
     console.log('Password is valid:', passwordIsValid);
 
     if (!passwordIsValid) {
@@ -94,4 +94,6 @@ app.post('/api/login', (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
+
+
 
