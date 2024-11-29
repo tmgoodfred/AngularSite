@@ -67,7 +67,11 @@ export class UserAccountComponent {
       },
       error => {
         console.error('Error registering user', error);
-        this.registerMessage = 'Error creating account. Please try again.';
+        if (error.status === 409) {
+          this.registerMessage = 'User already exists. Please choose a different username.';
+        } else {
+          this.registerMessage = 'Error creating account. Please try again.';
+        }
         this.registerSuccess = false;
       }
     );
@@ -86,6 +90,9 @@ export class UserAccountComponent {
     );
   }
 }
+
+
+
 
 
 
