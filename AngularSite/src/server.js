@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 
 // Create a connection to the database
 const db = mysql.createConnection({
-  host: '192.168.1.245', // or '127.0.0.1'
+  host: '127.0.0.1', // or '127.0.0.1'
   user: 'root',
   password: 'rockgod111', // Replace with your actual password
   database: 'WebsiteDB'
