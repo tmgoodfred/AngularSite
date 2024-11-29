@@ -37,6 +37,16 @@ app.use((req, res, next) => {
 app.post('/api/register', (req, res) => {
   console.log('Register endpoint hit');
   const { UserName, UserPass } = req.body;
+  console.log('Request body:', req.body);
+  console.log('UserName:', UserName);
+  console.log('UserPass:', UserPass);
+
+  if (!UserPass) {
+    console.error('UserPass is undefined');
+    res.status(400).send('UserPass is required');
+    return;
+  }
+
   const hashedPassword = bcrypt.hashSync(UserPass, 8);
   const CreateDate = new Date();
 
@@ -94,6 +104,7 @@ app.post('/api/login', (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
+
 
 
 
