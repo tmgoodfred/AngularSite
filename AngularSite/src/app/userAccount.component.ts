@@ -14,7 +14,7 @@ import { AuthService } from './auth.service';
           <input type="text" [(ngModel)]="registerUser.UserName" placeholder="Username" name="username" class="form-control" required>
         </div>
         <div class="form-group">
-          <input type="password" [(ngModel)]="registerUser.UserPassword" placeholder="Password" name="password" class="form-control" required>
+          <input type="password" [(ngModel)]="registerUser.UserPass" placeholder="Password" name="password" class="form-control" required>
         </div>
         <button type="submit" class="btn btn-primary">Register</button>
       </form>
