@@ -9,9 +9,9 @@ const port = 3000;
 
 app.use(bodyParser.json());
 
-// Configure CORS to allow requests from your public IP
+// Configure CORS to allow requests from your public IP and localhost
 app.use(cors({
-  origin: ['http://http://99.108.171.159:81/', 'http://localhost:4200'],
+  origin: ['http://99.108.171.159:81', 'http://localhost:4200'], // Replace 'http://99.108.171.159:81' with your actual public IP
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
@@ -125,4 +125,5 @@ app.post('/api/login', (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
+
 
