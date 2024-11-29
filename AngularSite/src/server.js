@@ -27,8 +27,15 @@ db.connect((err) => {
   console.log('Connected to the MariaDB database.');
 });
 
+// Middleware to log requests
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  next();
+});
+
 // Register a new user
 app.post('/api/register', (req, res) => {
+  console.log('Register endpoint hit');
   const { UserName, UserPassword } = req.body;
   const hashedPassword = bcrypt.hashSync(UserPassword, 8);
   const CreateDate = new Date();
@@ -45,6 +52,7 @@ app.post('/api/register', (req, res) => {
 
 // Login a user
 app.post('/api/login', (req, res) => {
+  console.log('Login endpoint hit');
   const { UserName, UserPassword } = req.body;
 
   db.query('SELECT * FROM UserTable WHERE UserName = ?', [UserName], (err, results) => {
@@ -75,3 +83,4 @@ app.post('/api/login', (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
+
