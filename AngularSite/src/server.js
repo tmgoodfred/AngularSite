@@ -43,7 +43,7 @@ app.post('/api/register', (req, res) => {
 
   if (!UserPass) {
     console.error('UserPass is undefined');
-    res.status(400).send('UserPass is required');
+    res.status(400).json({ error: 'UserPass is required' });
     return;
   }
 
@@ -53,10 +53,10 @@ app.post('/api/register', (req, res) => {
   db.query('INSERT INTO UserTable (UserName, UserPass, CreateDate) VALUES (?, ?, ?)', [UserName, hashedPassword, CreateDate], (err, results) => {
     if (err) {
       console.error('Error registering user:', err.message);
-      res.status(500).send('Error registering user');
+      res.status(500).json({ error: 'Error registering user' });
       return;
     }
-    res.status(200).send('User registered successfully');
+    res.status(200).json({ message: 'User registered successfully' });
   });
 });
 
@@ -70,11 +70,11 @@ app.post('/api/login', (req, res) => {
   db.query('SELECT * FROM UserTable WHERE UserName = ?', [UserName], (err, results) => {
     if (err) {
       console.error('Error logging in:', err.message);
-      res.status(500).send('Error logging in');
+      res.status(500).json({ error: 'Error logging in' });
       return;
     }
     if (results.length === 0) {
-      res.status(404).send('User not found');
+      res.status(404).json({ error: 'User not found' });
       return;
     }
 
@@ -83,7 +83,7 @@ app.post('/api/login', (req, res) => {
 
     if (!user.UserPass) {
       console.error('UserPass from DB is undefined');
-      res.status(500).send('Server error');
+      res.status(500).json({ error: 'Server error' });
       return;
     }
 
@@ -91,12 +91,12 @@ app.post('/api/login', (req, res) => {
     console.log('Password is valid:', passwordIsValid);
 
     if (!passwordIsValid) {
-      res.status(401).send('Invalid password');
+      res.status(401).json({ error: 'Invalid password' });
       return;
     }
 
     const token = jwt.sign({ id: user.id }, 'secret', { expiresIn: 86400 }); // 24 hours
-    res.status(200).send({ auth: true, token });
+    res.status(200).json({ auth: true, token });
   });
 });
 
@@ -104,6 +104,7 @@ app.post('/api/login', (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
+
 
 
 
