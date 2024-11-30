@@ -70,6 +70,7 @@ interface WeatherResponse {
       border: 1px solid #ddd;
       border-radius: 5px;
       background-color: #f9f9f9;
+      color: #333; /* Set font color to a darker color */
       margin-bottom: 15px; /* Ensure at least 15px gap */
     }
     .weather-info h3 {
@@ -94,7 +95,9 @@ export class FontChangeComponent implements OnInit, OnDestroy {
 
   constructor(private http: HttpClient) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.getUserLocation();
+  }
 
   ngOnDestroy(): void {
     this.destroy$.next();
@@ -144,6 +147,46 @@ export class FontChangeComponent implements OnInit, OnDestroy {
         }
       );
   }
+
+  getUserLocation(): void {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          console.log('User location:', latitude, longitude);
+          this.reverseGeocode(latitude, longitude);
+        },
+        (error) => {
+          console.error('Error getting user location:', error);
+        }
+      );
+    } else {
+      console.error('Geolocation is not supported by this browser.');
+    }
+  }
+
+  reverseGeocode(latitude: number, longitude: number): void {
+    const apiKey = 'YOUR_REVERSE_GEOCODING_API_KEY'; // Replace with your reverse geocoding API key securely
+    const baseUrl = 'https://api.bigdatacloud.net/data/reverse-geocode-client';
+    const url = `${baseUrl}?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`;
+
+    this.http.get<any>(url)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (response) => {
+          console.log('Reverse geocoding response:', response);
+          if (response && response.city) {
+            this.location = response.city;
+          } else {
+            console.error('No city found in reverse geocoding response.');
+          }
+        },
+        (error) => {
+          console.error('Reverse geocoding API error:', error);
+        }
+      );
+  }
 }
+
 
 
