@@ -108,6 +108,7 @@ export class FontChangeComponent implements OnInit, OnDestroy {
   getWeather(): void {
     if (!this.location) {
       this.weatherInfo = { location: 'Please enter a location.' };
+      console.log('No location entered');
       return;
     }
 
@@ -115,10 +116,13 @@ export class FontChangeComponent implements OnInit, OnDestroy {
     const baseUrl = 'http://api.weatherapi.com/v1/current.json';
     const url = `${baseUrl}?key=${apiKey}&q=${this.location}&aqi=no`;
 
+    console.log('Fetching weather data for:', this.location);
+
     this.http.get<WeatherResponse>(url)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (response) => {
+          console.log('Weather API response:', response);
           if (response && response.current && response.location) {
             const { name, region, country } = response.location;
             const { temp_f, condition, humidity, wind_mph } = response.current;
@@ -140,5 +144,6 @@ export class FontChangeComponent implements OnInit, OnDestroy {
       );
   }
 }
+
 
 
