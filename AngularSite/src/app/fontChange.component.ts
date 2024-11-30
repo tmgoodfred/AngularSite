@@ -39,14 +39,13 @@ interface WeatherResponse {
 
         <button class="btn btn-primary mb-3" type="button" (click)="getWeather()">Get Weather</button>
 
-        <textarea
-          class="form-control shadow-lg mx-auto weather-textarea"
-          name="weatherTextArea"
-          [value]="weatherInfo"
-          readonly
-          data-bs-theme="light"
-          [rows]="textareaRows"
-        ></textarea>
+        <div class="weather-info shadow-lg mx-auto" *ngIf="weatherInfo">
+          <h3>{{ weatherInfo.location }}</h3>
+          <p><strong>Temperature:</strong> {{ weatherInfo.temp_f }}°F</p>
+          <p><strong>Condition:</strong> {{ weatherInfo.condition }}</p>
+          <p><strong>Humidity:</strong> {{ weatherInfo.humidity }}%</p>
+          <p><strong>Wind Speed:</strong> {{ weatherInfo.wind_mph }} mph</p>
+        </div>
       </div>
     </section>
 
@@ -64,9 +63,16 @@ interface WeatherResponse {
     .centered-section {
       padding: 20px 0;
     }
-    .weather-textarea {
+    .weather-info {
       width: 300px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background-color: #f9f9f9;
       margin-bottom: 15px; /* Ensure at least 15px gap */
+    }
+    .weather-info h3 {
+      margin-top: 0;
     }
   `],
   standalone: true,
@@ -80,8 +86,7 @@ export class FontChangeComponent implements OnInit, OnDestroy {
   currentFont: string = 'Arial';
 
   location: string = '';
-  weatherInfo: string = 'Enter a location to get weather info.';
-  textareaRows: number = 1;
+  weatherInfo: any = null;
 
   private subscription: Subscription | null = null;
   private destroy$ = new Subject<void>();
@@ -102,8 +107,7 @@ export class FontChangeComponent implements OnInit, OnDestroy {
 
   getWeather(): void {
     if (!this.location) {
-      this.weatherInfo = 'Please enter a location.';
-      this.updateTextareaRows();
+      this.weatherInfo = { location: 'Please enter a location.' };
       return;
     }
 
@@ -118,22 +122,23 @@ export class FontChangeComponent implements OnInit, OnDestroy {
           if (response && response.current && response.location) {
             const { name, region, country } = response.location;
             const { temp_f, condition, humidity, wind_mph } = response.current;
-            this.weatherInfo = `Location: ${name}, ${region}, ${country}\nTemperature: ${temp_f}°F\nCondition: ${condition.text}\nHumidity: ${humidity}%\nWind Speed: ${wind_mph} mph`;
+            this.weatherInfo = {
+              location: `${name}, ${region}, ${country}`,
+              temp_f,
+              condition: condition.text,
+              humidity,
+              wind_mph
+            };
           } else {
-            this.weatherInfo = 'No weather data available for this location.';
+            this.weatherInfo = { location: 'No weather data available for this location.' };
           }
-          this.updateTextareaRows();
         },
         (error) => {
-          this.weatherInfo = 'Error fetching weather data. Please try again later.';
+          this.weatherInfo = { location: 'Error fetching weather data. Please try again later.' };
           console.error('Weather API error:', error);
-          this.updateTextareaRows();
         }
       );
   }
-
-  updateTextareaRows(): void {
-    this.textareaRows = this.weatherInfo.split('\n').length;
-  }
 }
+
 
