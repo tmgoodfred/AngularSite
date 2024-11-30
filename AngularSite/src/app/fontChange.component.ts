@@ -5,6 +5,11 @@ import { Subscription, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 interface WeatherResponse {
+  location: {
+    name: string;
+    region: string;
+    country: string;
+  };
   current: {
     temp_f: number;
     condition: {
@@ -102,9 +107,10 @@ export class FontChangeComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (response) => {
-          if (response && response.current) {
+          if (response && response.current && response.location) {
+            const { name, region, country } = response.location;
             const { temp_f, condition, humidity, wind_mph } = response.current;
-            this.weatherInfo = `Temperature: ${temp_f}°F\nCondition: ${condition.text}\nHumidity: ${humidity}%\nWind Speed: ${wind_mph} mph`;
+            this.weatherInfo = `Location: ${name}, ${region}, ${country}\nTemperature: ${temp_f}°F\nCondition: ${condition.text}\nHumidity: ${humidity}%\nWind Speed: ${wind_mph} mph`;
           } else {
             this.weatherInfo = 'No weather data available for this location.';
           }
