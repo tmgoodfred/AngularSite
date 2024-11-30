@@ -18,7 +18,7 @@ app.use(cors({
 
 // Create a connection to the database
 const db = mysql.createConnection({
-  host: 'localhost', // Use 'localhost' if the database is on the same machine
+  host: '127.0.0.1', // Use '127.0.0.1' to explicitly specify the IPv4 loopback address
   user: 'root',
   password: 'rockgod111', // Replace with your actual password
   database: 'WebsiteDB'
@@ -125,6 +125,4 @@ app.post('/api/login', (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
-
-
 
