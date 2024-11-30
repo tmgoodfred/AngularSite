@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { Subscription, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -76,7 +77,7 @@ interface WeatherResponse {
     }
   `],
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule],
 })
 export class FontChangeComponent implements OnInit, OnDestroy {
   fonts: string[] = [
@@ -144,6 +145,5 @@ export class FontChangeComponent implements OnInit, OnDestroy {
       );
   }
 }
-
 
 
