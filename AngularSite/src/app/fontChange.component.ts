@@ -24,43 +24,51 @@ interface WeatherResponse {
   selector: 'app-font-change',
   template: `
     <section class="centered-section">
-    <div class="centered-content text-center">
-      <h1>This is a section to test fun functions!</h1>
-      <p>How about checking the weather?</p>
+      <div class="centered-content text-center">
+        <h1>This is a section to test fun functions!</h1>
+        <p>How about checking the weather?</p>
 
-      <input
-       class="form-control w-50 mb-3 mx-auto"
-       type="text"
-       placeholder="Enter Location"
-       [(ngModel)]="location"
-       name="locationTextBox"
-       required
-      />
+        <input
+          class="form-control w-50 mb-3 mx-auto"
+          type="text"
+          placeholder="Enter Location"
+          [(ngModel)]="location"
+          name="locationTextBox"
+          required
+        />
 
-      <button class="btn btn-primary mb-3" type="button" (click)="getWeather()">Get Weather</button>
+        <button class="btn btn-primary mb-3" type="button" (click)="getWeather()">Get Weather</button>
 
-      <textarea
-       class="form-control shadow-lg mx-auto"
-       name="weatherTextArea"
-       [value]="weatherInfo"
-       readonly
-       data-bs-theme="light"
-       [rows]="textareaRows"
-       style="width: 300px;"
-      ></textarea>
-    </div>
-   </section>
+        <textarea
+          class="form-control shadow-lg mx-auto weather-textarea"
+          name="weatherTextArea"
+          [value]="weatherInfo"
+          readonly
+          data-bs-theme="light"
+          [rows]="textareaRows"
+        ></textarea>
+      </div>
+    </section>
 
-   <section id="fun-font" class="centered-section">  
-    <div class="centered-content">  
-      <div class="col-lg-8 mx-auto text-center">  
-       <h1 [style.fontFamily]="currentFont">Change the Font for Fun!</h1>  
-       <p>Click the button to change the font of this text randomly.</p>  
-       <button class="btn btn-primary btn-lg" (click)="changeFont()">Change Font</button>  
+    <section id="fun-font" class="centered-section">  
+      <div class="centered-content">  
+        <div class="col-lg-8 mx-auto text-center">  
+          <h1 [style.fontFamily]="currentFont">Change the Font for Fun!</h1>  
+          <p>Click the button to change the font of this text randomly.</p>  
+          <button class="btn btn-primary btn-lg" (click)="changeFont()">Change Font</button>  
+        </div>  
       </div>  
-    </div>  
-   </section>
+    </section>
   `,
+  styles: [`
+    .centered-section {
+      padding: 20px 0;
+    }
+    .weather-textarea {
+      width: 300px;
+      margin-bottom: 15px; /* Ensure at least 15px gap */
+    }
+  `],
   standalone: true,
   imports: [FormsModule],
 })
@@ -128,3 +136,4 @@ export class FontChangeComponent implements OnInit, OnDestroy {
     this.textareaRows = this.weatherInfo.split('\n').length;
   }
 }
+
