@@ -64,6 +64,7 @@ export class UserAccountComponent {
         console.log('User registered successfully', response);
         this.registerMessage = 'Account created successfully!';
         this.registerSuccess = true;
+        this.registerUser = { UserName: '', UserPass: '' }; // Clear the text boxes
       },
       error => {
         console.error('Error registering user', error);
@@ -82,6 +83,7 @@ export class UserAccountComponent {
       response => {
         console.log('User logged in successfully', response);
         this.loginMessage = 'Login Successful!';
+        this.loginUser = { UserName: '', UserPass: '' }; // Clear the text boxes
       },
       error => {
         console.error('Error logging in', error);
@@ -90,3 +92,4 @@ export class UserAccountComponent {
     );
   }
 }
+
