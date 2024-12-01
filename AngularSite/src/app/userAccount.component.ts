@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { AuthService } from './auth.service';
+import * as CryptoJS from 'crypto-js';
 
 @Component({
   selector: 'app-user-account',
@@ -59,7 +60,10 @@ export class UserAccountComponent {
   constructor(private authService: AuthService) { }
 
   register(): void {
-    this.authService.register(this.registerUser).subscribe(
+    const hashedPassword = CryptoJS.SHA256(this.registerUser.UserPass).toString();
+    const user = { ...this.registerUser, UserPass: hashedPassword };
+
+    this.authService.register(user).subscribe(
       response => {
         console.log('User registered successfully', response);
         this.registerMessage = 'Account created successfully!';
@@ -78,7 +82,10 @@ export class UserAccountComponent {
   }
 
   login(): void {
-    this.authService.login(this.loginUser).subscribe(
+    const hashedPassword = CryptoJS.SHA256(this.loginUser.UserPass).toString();
+    const user = { ...this.loginUser, UserPass: hashedPassword };
+
+    this.authService.login(user).subscribe(
       response => {
         console.log('User logged in successfully', response);
         this.loginMessage = 'Login Successful!';
