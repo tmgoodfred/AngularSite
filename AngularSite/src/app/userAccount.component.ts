@@ -88,6 +88,7 @@ export class UserAccountComponent {
       error => {
         console.error('Error logging in', error);
         this.loginMessage = 'Error logging in. Please try again.';
+        this.loginUser.UserPass = ''; // Clear only the password field
       }
     );
   }
