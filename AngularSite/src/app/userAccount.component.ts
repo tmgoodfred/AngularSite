@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { AuthService } from './auth.service';
-import * as CryptoJS from 'crypto-js';
+import * as bcrypt from 'bcryptjs';
 
 @Component({
   selector: 'app-user-account',
@@ -60,7 +60,8 @@ export class UserAccountComponent {
   constructor(private authService: AuthService) { }
 
   register(): void {
-    const hashedPassword = CryptoJS.SHA256(this.registerUser.UserPass).toString();
+    const salt = bcrypt.genSaltSync(8);
+    const hashedPassword = bcrypt.hashSync(this.registerUser.UserPass, salt);
     const user = { ...this.registerUser, UserPass: hashedPassword };
 
     this.authService.register(user).subscribe(
@@ -82,7 +83,8 @@ export class UserAccountComponent {
   }
 
   login(): void {
-    const hashedPassword = CryptoJS.SHA256(this.loginUser.UserPass).toString();
+    const salt = bcrypt.genSaltSync(8);
+    const hashedPassword = bcrypt.hashSync(this.loginUser.UserPass, salt);
     const user = { ...this.loginUser, UserPass: hashedPassword };
 
     this.authService.login(user).subscribe(
